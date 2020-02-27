@@ -3,7 +3,9 @@ pipeline {
   agent { dockerfile true }
   stages {
     stage('Get artifacts') {
-      echo ('hello world')
+      steps {
+        echo ('hello world')
+      }
     }
   }
 }
