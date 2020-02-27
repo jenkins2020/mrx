@@ -28,5 +28,10 @@ pipeline {
         archiveArtifacts artifacts: '*.rpm'
       }
     }
+    post { 
+      success {
+        build job: 'mrx_rpm_test_hello_world'
+      }
+    }
   }
 }
