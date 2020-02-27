@@ -18,11 +18,11 @@ pipeline {
 
       }
     }
-    stage('Lint RPM') {
-      steps {
-        sh 'cd /home/build/rpmbuild/SPECS/ && rpmlint hello.spec ../SRPMS/hello* ../RPMS/*/hello*'
-      }
-    }
+    // stage('Lint RPM') {
+    //   steps {
+    //     sh 'cd /home/build/rpmbuild/SPECS/ && rpmlint hello.spec ../SRPMS/hello* ../RPMS/*/hello*'
+    //   }
+    // }
     stage('Archive RPMs') {
       steps {
         archiveArtifacts artifacts: '*.rpm'
