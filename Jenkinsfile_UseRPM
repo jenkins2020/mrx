@@ -2,9 +2,19 @@
 pipeline {
   agent { dockerfile true }
   stages {
-    stage('Get artifacts') {
+    stage('Copy Archive') {
       steps {
-        echo ('hello world')
+        script {
+          step ([$class: 'CopyArtifact',
+            projectName: 'mrx_rpm_hello_world',
+            filter: "*.rpm",
+            target: 'RPMS']);
+          }
+      }
+    }
+    stage('List artifacts') {
+      steps {
+        sh 'ls -lah RPMS/'
       }
     }
   }
