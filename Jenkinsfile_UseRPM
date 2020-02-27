@@ -1,6 +1,10 @@
 #!/bin/groovy
 pipeline {
-  agent { dockerfile true }
+  agent {
+    dockerfile {
+      additionalBuildArgs "--build-arg user_id=0 --build-arg group_id=0"
+    }
+  }
   stages {
     stage('Copy Archive') {
       steps {
