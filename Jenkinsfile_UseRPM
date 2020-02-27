@@ -23,7 +23,7 @@ pipeline {
     }
     stage('execute hello world') {
       steps {
-        sh 'rpm -ql RPMS/hello-2.10-1.x86_64.rpm'
+        sh '/usr/bin/hello'
       }
     }
   }
