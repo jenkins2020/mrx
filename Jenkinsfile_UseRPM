@@ -2,7 +2,7 @@
 pipeline {
   agent {
     dockerfile {
-      additionalBuildArgs "--build-arg user_id=0 --build-arg group_id=0"
+      args '-u 0:0'
     }
   }
   stages {
