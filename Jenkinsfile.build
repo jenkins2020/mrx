@@ -1,0 +1,49 @@
+pipeline {
+    parameters { string(name: 'VERSION', defaultValue: 'fedora:latest', description: '') }
+
+    agent {
+        dockerfile {
+            filename "Dockerfile.${VERSION}"
+        }
+    }
+
+    stages {
+        stage('Init') {
+            steps {
+                sh "rpmdev-setuptree"
+                sh "ls ~/rpmbuild/*"
+            }
+        }
+        stage('GetSource') {
+            steps {
+                sh "cd ~/rpmbuild/SOURCES && wget http://ftp.gnu.org/gnu/hello/hello-2.10.tar.gz"
+            }
+        }
+        stage('GetSpec') {
+            steps {
+                sh "cp hello.spec ~/rpmbuild/SPECS"
+            }
+        }
+        stage('Build') {
+            steps {
+                sh "cd ~/rpmbuild/SPECS && rpmbuild -ba hello.spec"
+                sh 'find ~/rpmbuild -name "*.rpm" -exec rpmlint {} \\;'
+                sh 'find ~/rpmbuild -name "*.rpm" -exec cp -v {} . \\;'
+            }
+        }
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: '**/*.rpm', fingerprint: true
+            }
+        }
+        stage('RunTest') {
+            steps {
+                build job: 'mrx_runtest', parameters: [
+                    string( name: 'VERSION', value: "${VERSION}" ),
+                    string( name: 'BUILDNUMBER', value: "${env.BUILD_NUMBER}" ),
+                ]
+            }
+        }
+    }
+}
+

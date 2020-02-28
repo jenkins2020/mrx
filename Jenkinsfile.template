@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('Matrix') {
+            matrix {
+                axes {
+                    axis {
+                        name 'VERSION'
+                        values 'fedora:28', 'fedora:29', 'fedora:30', 'fedora:31', 'fedora:32'
+                    }
+                }
+                stages {
+                    stage('RunBuild') {
+                        steps {
+                            build job: 'mrx_runbuild', parameters: [
+                                string(name: 'VERSION', value: "${VERSION}")
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

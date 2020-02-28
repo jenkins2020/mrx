@@ -1,0 +1,39 @@
+pipeline {
+    parameters {
+        string(name: 'VERSION', defaultValue: 'fedora:latest', description: '')
+
+        string(name: 'BUILDNUMBER', defaultValue: '1', description: '')
+    }
+
+    agent {
+        docker {
+            image "${VERSION}"
+            args '-u 0:0'
+        }
+    }
+
+    stages {
+        stage('CopyArtifact') {
+            steps {
+                copyArtifacts(projectName: 'mrx_runbuild', selector: specific("${params.BUILDNUMBER}"));
+                // copyArtifacts projectName: "mrx_runbuild"
+            }
+        }
+        stage('ShowVersion') {
+            steps {
+                echo "${VERSION} from build ${params.BUILDNUMBER}"
+            }
+        }
+        stage('Install') {
+            steps {
+                sh "rpm -hiv hello-2.10-0.x86_64.rpm"
+            }
+        }
+        stage('Test') {
+            steps {
+                sh "/usr/bin/hello"
+            }
+        }
+    }
+}
+
