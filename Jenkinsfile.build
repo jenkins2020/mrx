@@ -3,7 +3,7 @@ pipeline {
 
     agent {
         dockerfile {
-            filename "Dockerfile.${VERSION}"
+            filename "Dockerfile.${params.VERSION}"
         }
     }
 
