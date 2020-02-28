@@ -9,8 +9,8 @@ pipeline {
         docker {
             image "${VERSION}"
             args '-u 0:0'
+            label 'mrx_bare'
         }
-      label 'mrx_bare'
     }
 
     stages {
