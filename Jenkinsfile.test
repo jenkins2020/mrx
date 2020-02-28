@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Install') {
             steps {
-                sh "rpm -hiv hello-2.10-0.x86_64.rpm"
+                sh "rpm -hiv hello-2.10-1.x86_64.rpm"
             }
         }
         stage('Test') {
