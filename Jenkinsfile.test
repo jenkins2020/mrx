@@ -10,6 +10,7 @@ pipeline {
             image "${VERSION}"
             args '-u 0:0'
         }
+      label 'mrx_bare'
     }
 
     stages {

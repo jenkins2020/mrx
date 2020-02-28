@@ -2,6 +2,7 @@ pipeline {
     parameters { string(name: 'VERSION', defaultValue: 'fedora:latest', description: '') }
 
     agent {
+      label 'mrx_bare'
         dockerfile {
             filename "Dockerfile.${params.VERSION}"
         }

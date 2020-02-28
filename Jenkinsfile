@@ -1,6 +1,9 @@
 #!/bin/groovy
 pipeline {
-  agent { dockerfile true }
+  agent {
+    dockerfile true
+    label 'mrx_bare'
+  }
   stages {
     stage('Prepare source & specs') {
       steps {
