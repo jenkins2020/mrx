@@ -1,0 +1,8 @@
+FROM fedora:30
+MAINTAINER http://fedoraproject.org/wiki/Cloud
+
+RUN dnf -y update && dnf clean all && dnf -y install fedora-packager @development-tools wget
+RUN useradd -m -d /home/user -s /bin/bash user && usermod -a -G mock user
+USER user
+WORKDIR /home/user
+
